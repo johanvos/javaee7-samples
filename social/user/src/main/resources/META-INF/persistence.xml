@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="dalicore_sql" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>derby</jta-data-source>
+    <mapping-file>META-INF/orm.xml</mapping-file>
+   <!-- <class>com.lodgon.dali.core.entity.Content</class>
+                  <class>com.lodgon.dali.core.entity.Field</class>
+                <class>com.lodgon.dali.core.entity.Group</class>
+                <class>com.lodgon.dali.core.entity.Membership</class>
+                <class>com.lodgon.dali.core.entity.User</class>
+                <class>com.lodgon.dali.core.entity.permission.ContentPermission</class>
+                <class>com.lodgon.dali.core.entity.permission.GroupPermission</class>
+                <class>com.lodgon.dali.core.entity.permission.TypePermission</class>
+                <class>com.lodgon.dali.core.entity.permission.UserPermission</class>
+                <class>com.lodgon.dali.core.impl.entity.jpa.sql.ContentField</class>
+                <class>com.lodgon.dali.core.impl.entity.jpa.sql.GroupField</class>
+                <class>com.lodgon.dali.core.impl.entity.jpa.sql.UserField</class>-->
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+      <property name="eclipselink.logging.level" value="FINE" />
+    </properties>
+  </persistence-unit>
+</persistence>
