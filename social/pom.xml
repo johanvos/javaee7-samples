@@ -18,6 +18,7 @@
         <module>user</module>
         <module>content</module>
         <module>twitter</module>
+        <module>vote</module>
     </modules>
 
 </project>

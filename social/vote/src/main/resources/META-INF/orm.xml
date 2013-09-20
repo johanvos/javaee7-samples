@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entity-mappings
+	xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+	http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+
+	<mapped-superclass class="com.lodgon.dali.core.entity.Field" access="PROPERTY">
+		<attributes>
+			<basic name="name"/>
+			<basic name="booleanValue"/>
+			<basic name="doubleValue"/>
+			<basic name="longValue"/>
+			<basic name="stringValue">
+				<lob/>
+			</basic>
+			<element-collection name="booleanValues" fetch="EAGER" target-class="java.lang.Boolean"/>
+			<element-collection name="doubleValues" fetch="EAGER" target-class="java.lang.Double"/>
+			<element-collection name="longValues" fetch="EAGER" target-class="java.lang.Long"/>
+			<element-collection name="stringValues" fetch="EAGER" target-class="java.lang.String"/>
+		</attributes>
+	</mapped-superclass>
+
+	<entity class="com.lodgon.dali.core.entity.Content" access="PROPERTY">
+		<attributes>
+			<id name="id"/>
+			<basic name="uid"/>
+			<basic name="creationDate"/>
+			<basic name="modificationDate"/>
+			<basic name="applicationKey"/>
+			<basic name="type"/>
+			<basic name="score"/>
+			<basic name="title"/>
+			<basic name="content">
+				<lob/>
+			</basic>
+			<basic name="summary">
+				<lob/>
+			</basic>
+			<basic name="position"/>
+			<many-to-one name="author" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY"/>
+			<basic name="authorId"/>
+			<basic name="authorUid"/>
+			<many-to-one name="group" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY"/>
+			<basic name="groupId"/>
+			<basic name="groupUid"/>
+			<many-to-one name="parent" target-entity="com.lodgon.dali.core.entity.Content" fetch="LAZY"/>
+			<basic name="parentId"/>
+			<basic name="parentUid"/>
+			<basic name="parentPath"/>
+			<basic name="parentDepth"/>
+			<one-to-many name="fields" mapped-by="content" target-entity="com.lodgon.dali.core.impl.entity.jpa.sql.ContentField" fetch="EAGER" />
+			<element-collection name="tags" fetch="EAGER" target-class="java.lang.String"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistContent"/>
+				<pre-update method-name="preUpdateContent"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.impl.entity.jpa.sql.ContentField" access="PROPERTY">
+		<named-query name="ContentField.findByContent">
+			<query>SELECT cf FROM ContentField cf WHERE cf.content = :content</query>
+		</named-query>
+		<attributes>
+			<id name="id"/>
+			<many-to-one name="content" target-entity="com.lodgon.dali.core.entity.Content" fetch="LAZY" />
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistContentField"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.entity.Group" access="PROPERTY">
+<table name="daligroup"/>
+		<attributes>
+			<id name="id"/>
+			<basic name="uid"/>
+			<basic name="creationDate"/>
+			<basic name="modificationDate"/>
+			<basic name="applicationKey"/>
+			<basic name="type"/>
+			<basic name="score"/>
+			<basic name="name"/>
+			<many-to-one name="author" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY"/>
+			<basic name="authorId"/>
+			<basic name="authorUid"/>
+			<many-to-one name="parent" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY"/>
+			<basic name="parentId"/>
+			<basic name="parentUid"/>
+			<basic name="parentPath"/>
+			<basic name="parentDepth"/>
+			<one-to-many name="fields" mapped-by="group" target-entity="com.lodgon.dali.core.impl.entity.jpa.sql.GroupField" fetch="EAGER" />
+			<element-collection name="tags" fetch="EAGER" target-class="java.lang.String"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistGroup"/>
+				<pre-update method-name="preUpdateGroup"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.impl.entity.jpa.sql.GroupField" access="PROPERTY">
+		<named-query name="GroupField.findByGroup">
+			<query>SELECT gf FROM GroupField gf WHERE gf.group = :group</query>
+		</named-query>
+		<attributes>
+			<id name="id"/>
+			<many-to-one name="group" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY" />
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistGroupField"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.entity.Membership" access="PROPERTY">
+		<attributes>
+			<id name="id"/>
+			<basic name="creationDate"/>
+			<many-to-one name="group" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY"/>
+			<basic name="groupType"/>
+			<basic name="groupId"/>
+			<basic name="groupUid"/>
+			<many-to-one name="user" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY"/>
+			<basic name="userId"/>
+			<basic name="userUid"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistMembership"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.entity.User" access="PROPERTY">
+<table name="daliuser"/>
+		<attributes>
+			<id name="id"/>
+			<basic name="uid"/>
+			<basic name="creationDate"/>
+			<basic name="modificationDate"/>
+			<basic name="applicationKey"/>
+			<basic name="type"/>
+			<basic name="score"/>
+			<basic name="screenName"/>
+			<basic name="firstName"/>
+			<basic name="lastName"/>
+			<basic name="email"/>
+			<basic name="password"/>
+			<basic name="lastLoginDate"/>
+			<basic name="depiction"/>
+			<basic name="status"/>
+			<one-to-many name="fields" mapped-by="user" target-entity="com.lodgon.dali.core.impl.entity.jpa.sql.UserField" fetch="EAGER" />
+			<element-collection name="tags" fetch="EAGER" target-class="java.lang.String"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistUser"/>
+				<pre-update method-name="preUpdateUser"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.impl.entity.jpa.sql.UserField" access="PROPERTY">
+		<named-query name="UserField.findByUser">
+			<query>SELECT uf FROM UserField uf WHERE uf.user = :user</query>
+		</named-query>
+		<attributes>
+			<id name="id"/>
+			<many-to-one name="user" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY" />
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistUserField"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.entity.permission.ContentPermission" access="PROPERTY">
+		<attributes>
+			<id name="id"/>
+			<basic name="creationDate"/>
+			<basic name="applicationKey"/>
+			<many-to-one name="target" target-entity="com.lodgon.dali.core.entity.Content" fetch="LAZY" />
+			<basic name="targetId"/>
+			<basic name="targetUid"/>
+			<many-to-one name="group" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY" />
+			<basic name="groupId"/>
+			<basic name="groupUid"/>
+			<many-to-one name="user" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY" />
+			<basic name="userId"/>
+			<basic name="userUid"/>
+			<basic name="action"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistContentPermission"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.entity.permission.GroupPermission" access="PROPERTY">
+		<attributes>
+			<id name="id"/>
+			<basic name="creationDate"/>
+			<basic name="applicationKey"/>
+			<many-to-one name="target" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY" />
+			<basic name="targetId"/>
+			<basic name="targetUid"/>
+			<many-to-one name="group" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY" />
+			<basic name="groupId"/>
+			<basic name="groupUid"/>
+			<many-to-one name="user" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY" />
+			<basic name="userId"/>
+			<basic name="userUid"/>
+			<basic name="action"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistGroupPermission"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.entity.permission.TypePermission" access="PROPERTY">
+		<attributes>
+			<id name="id"/>
+			<basic name="creationDate"/>
+			<basic name="applicationKey"/>
+			<basic name="target"/>
+			<many-to-one name="group" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY" />
+			<basic name="groupId"/>
+			<basic name="groupUid"/>
+			<many-to-one name="user" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY" />
+			<basic name="userId"/>
+			<basic name="userUid"/>
+			<basic name="action"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistTypePermission"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+	<entity class="com.lodgon.dali.core.entity.permission.UserPermission" access="PROPERTY">
+		<attributes>
+			<id name="id"/>
+			<basic name="creationDate"/>
+			<basic name="applicationKey"/>
+			<many-to-one name="target" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY" />
+			<basic name="targetId"/>
+			<basic name="targetUid"/>
+			<many-to-one name="group" target-entity="com.lodgon.dali.core.entity.Group" fetch="LAZY" />
+			<basic name="groupId"/>
+			<basic name="groupUid"/>
+			<many-to-one name="user" target-entity="com.lodgon.dali.core.entity.User" fetch="LAZY" />
+			<basic name="userId"/>
+			<basic name="userUid"/>
+			<basic name="action"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.impl.entity.jpa.sql.EntityListener">
+				<pre-persist method-name="prePersistUserPermission"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
+
+
+
+</entity-mappings>
