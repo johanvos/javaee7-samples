@@ -10,7 +10,7 @@
 	<body>
 		<h2>JavaEE 7 Samples - Social - Content</h2>
 
-		<p><b>Signed in as ${user.screenName}</b> (<a href="rest/content/signout">sign out</a>)</p>
+		<p><b>Signed in as ${user.screenName}</b> (<a href="rest/user/signout">sign out</a>)</p>
 
 		<h4>Messages</h4>
 

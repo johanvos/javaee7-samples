@@ -4,7 +4,6 @@ import com.lodgon.dali.core.entity.Content;
 import com.lodgon.dali.core.entity.User;
 import com.lodgon.dali.core.service.ContentService;
 import com.lodgon.dali.core.service.DaliCoreException;
-import com.lodgon.dali.core.service.UserService;
 import com.lodgon.dali.core.storage.ContentStorageService;
 import com.lodgon.dali.core.storage.FetchType;
 import java.net.URI;
@@ -35,51 +34,9 @@ public class ContentHandler {
 	ContentService contentService;
 	@Inject
 	ContentStorageService contentStorage;
-	@Inject
-	UserService userService;
 
 	@Context
 	HttpServletRequest request;
-
-	@Path("signup")
-	@POST
-	public Response signup(@FormParam("name") String name,
-					@FormParam("email") String email,
-					@FormParam("password") String password) throws DaliCoreException, URISyntaxException {
-		User existing = userService.getByEmail("", email);
-		if (existing == null) {
-			User user = new User();
-			user.setScreenName(name);
-			user.setEmail(email);
-			User created = userService.create(user);
-			userService.setPassword(created, password);
-
-			request.getSession().setAttribute("user", created);
-			return Response.seeOther(new URI("/content/rest/content/overview")).build();
-		} else {
-			return Response.seeOther(new URI("/content/index.jsp?signup=false")).build();
-		}
-	}
-
-	@Path("signin")
-	@POST
-	public Response signin(@FormParam("email") String email,
-					@FormParam("password") String password) throws DaliCoreException, URISyntaxException {
-		User user = userService.validateEmailAndPassword("", email, password);
-		if (user != null) {
-			request.getSession().setAttribute("user", user);
-			return Response.seeOther(new URI("/content/rest/content/overview")).build();
-		} else {
-			return Response.seeOther(new URI("/content/index.jsp?signin=false")).build();
-		}
-	}
-
-	@Path("signout")
-	@GET
-	public Response signout() throws URISyntaxException {
-		request.getSession().invalidate();
-		return Response.seeOther(new URI("/content/index.jsp")).build();
-	}
 
 	@Path("overview")
 	@GET

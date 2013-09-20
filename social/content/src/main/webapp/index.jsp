@@ -10,7 +10,7 @@
 		<h2>JavaEE 7 Samples - Social - Content</h2>
 
 		<h4>Sign up</h4>
-		<form action="rest/content/signup" method="POST">
+		<form action="rest/user/signup" method="POST">
 			<table>
 				<c:if test="${param.signup == 'false'}">
 					<tr>
@@ -33,7 +33,7 @@
 		</form>
 
 		<h4>Sign in</h4>
-		<form action="rest/content/signin" method="POST">
+		<form action="rest/user/signin" method="POST">
 			<table>
 				<c:if test="${param.signin == 'false'}">
 					<tr>

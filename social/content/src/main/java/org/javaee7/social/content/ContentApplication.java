@@ -28,6 +28,7 @@ public class ContentApplication extends Application {
 	 */
 	private void addRestResourceClasses(Set<Class<?>> resources) {
 		resources.add(org.javaee7.social.content.ContentHandler.class);
+		resources.add(org.javaee7.social.content.UserHandler.class);
 	}
 	
 }
