@@ -16,6 +16,8 @@
 
     <modules>
         <module>user</module>
+        <module>content</module>
+        <module>twitter</module>
     </modules>
 
 </project>
