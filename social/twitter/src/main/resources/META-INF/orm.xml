@@ -76,7 +76,7 @@
 	</entity>
 
 	<entity class="com.lodgon.dali.core.entity.Group" access="PROPERTY">
-<table name="daligroup"/>
+		<table name="daligroup"/>
 		<attributes>
 			<id name="id"/>
 			<basic name="uid"/>
@@ -139,7 +139,7 @@
 	</entity>
 
 	<entity class="com.lodgon.dali.core.entity.User" access="PROPERTY">
-<table name="daliuser"/>
+		<table name="daliuser"/>
 		<attributes>
 			<id name="id"/>
 			<basic name="uid"/>
@@ -271,6 +271,44 @@
 		</entity-listeners>
 	</entity>
 
+	<entity class="com.lodgon.dali.core.social.connect.entity.ExternalToken" access="PROPERTY">
+		<named-query name="ExternalToken.findByNetworkAndTypeAndToken">
+			<query>SELECT et FROM ExternalToken et WHERE et.network = :network AND et.type = :type AND et.token = :token AND et.applicationKey = :applicationKey ORDER BY et.creationDate DESC</query>
+		</named-query>
+		<attributes>
+			<id name="id"/>
+			<basic name="creationDate"/>
+			<basic name="applicationKey"/>
+			<basic name="type"/>
+			<basic name="network"/>
+			<basic name="token"/>
+			<basic name="secret"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.social.connect.entity.EntityListener">
+				<pre-persist method-name="prePersistExternalToken"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
 
+	<entity class="com.lodgon.dali.core.social.connect.entity.OnlineAccount" access="PROPERTY">
+		<named-query name="OnlineAccount.findByUser">
+			<query>SELECT oa FROM OnlineAccount oa WHERE oa.user = :user AND oa.applicationKey = :applicationKey ORDER BY oa.creationDate DESC</query>
+		</named-query>
+		<attributes>
+			<id name="id"/>
+			<basic name="creationDate"/>
+			<basic name="applicationKey"/>
+			<basic name="network"/>
+			<basic name="accountId"/>
+			<one-to-one name="accessToken" target-entity="com.lodgon.dali.core.social.connect.entity.ExternalToken" fetch="EAGER"/>
+			<many-to-one name="user" target-entity="com.lodgon.dali.core.entity.User" fetch="EAGER"/>
+		</attributes>
+		<entity-listeners>
+			<entity-listener class="com.lodgon.dali.core.social.connect.entity.EntityListener">
+				<pre-persist method-name="prePersistOnlineAccount"/>
+			</entity-listener>
+		</entity-listeners>
+	</entity>
 
 </entity-mappings>
