@@ -12,6 +12,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
@@ -70,4 +71,16 @@ public class UserHandler {
 		return Response.seeOther(new URI("/vote/index.jsp")).build();
 	}
 
+	@Path("callback")
+	@GET
+	public Response callback(@QueryParam("uid") String uid,
+					@QueryParam("verifier") String verifier) throws URISyntaxException, DaliCoreException {
+		User user = userService.getByUid("", uid);
+		if (user != null) {
+			request.getSession().setAttribute("user", user);
+			return Response.seeOther(new URI("/vote/rest/content/overview")).build();
+		} else {
+			return Response.seeOther(new URI("/vote/index.jsp?connect=false")).build();
+		}
+	}
 }

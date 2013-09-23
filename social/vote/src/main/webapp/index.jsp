@@ -51,5 +51,17 @@
 				</tr>
 			</table>
 		</form>
+
+		<p>
+			<c:if test="${param.connect == 'false'}">
+				<tr>
+					<td colspan="2"><p style="color:#d22"><b>Failed to connect with twitter!</b></p></td>
+				</tr>
+			</c:if>
+			<c:url value="rest/dalicoresocial/connect/twitter" var="twitterConnectUrl">
+				<c:param name="callback" value="http://localhost:8080/vote/rest/user/callback"/>
+			</c:url>
+			<a href="${twitterConnectUrl}">Login via twitter</a>
+		</p>
 	</body>
 </html>

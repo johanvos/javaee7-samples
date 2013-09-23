@@ -16,8 +16,8 @@
 
     <modules>
         <module>user</module>
-        <module>content</module>
         <module>twitter</module>
+        <module>content</module>
         <module>vote</module>
     </modules>
 
