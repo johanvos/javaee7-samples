@@ -27,8 +27,10 @@ public class ContentApplication extends Application {
 	 * given list with all resources defined in the project.
 	 */
 	private void addRestResourceClasses(Set<Class<?>> resources) {
-		resources.add(org.javaee7.social.content.ContentHandler.class);
-		resources.add(org.javaee7.social.content.UserHandler.class);
+    resources.add(com.lodgon.dali.core.social.connect.resource.DaliCoreSocialHandler.class);
+  //  resources.add(org.glassfish.jersey.client.filter.HttpDigestAuthFilter.class);
+    resources.add(org.javaee7.social.content.ContentHandler.class);
+    resources.add(org.javaee7.social.content.UserHandler.class);
 	}
 	
 }

@@ -44,5 +44,27 @@
             <version>2.1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.lodgon.dalicore</groupId>
+            <artifactId>dalicore-social-connect</artifactId>
+            <version>2.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.3.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.security</groupId>
+            <artifactId>oauth1-client</artifactId>
+            <version>2.3.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.security</groupId>
+            <artifactId>oauth1-signature</artifactId>
+            <version>2.3.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 </project>
